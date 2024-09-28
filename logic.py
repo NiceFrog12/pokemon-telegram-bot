@@ -14,7 +14,6 @@ class Pokemon:
         self.hitpoints = self.get_stats()[0]
         self.attack = self.get_stats()[1]
         self.type_slot_1 = self.get_stats()[2]
-        self.type_slot_2 = self.get_stats()[3]
         Pokemon.pokemons[pokemon_trainer] = self
 
     # Метод для получения картинки покемона через API
@@ -32,7 +31,7 @@ class Pokemon:
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
-            return data['stats'][0]['base_stat'] , data['stats'][1]['base_stat'], data["types"][0]['type']['name']#,data["types"][1]['type']['name']
+            return data['stats'][0]['base_stat'] , data['stats'][1]['base_stat'], data["types"][0]['type']['name']
         else:
             return "Pikachu"
     
@@ -56,7 +55,7 @@ class Pokemon:
         return self.img
     
     def show_stats(self):
-        return f"your pokemon has {self.hitpoints}hp and {self.attack} attack. The pokemon types are {self.type_slot_1} and {self.type_slot_2}"
+        return f"your pokemon has {self.hitpoints}hp and {self.attack} attack. The pokemon type is {self.type_slot_1}!"
 
 
 
