@@ -14,6 +14,7 @@ class Pokemon:
         self.hitpoints = self.get_stats()[0]
         self.attack = self.get_stats()[1]
         self.type_slot_1 = self.get_stats()[2]
+        self.speed = self.get_stats()[3]
         Pokemon.pokemons[pokemon_trainer] = self
 
     # Метод для получения картинки покемона через API
@@ -31,7 +32,7 @@ class Pokemon:
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
-            return data['stats'][0]['base_stat'] , data['stats'][1]['base_stat'], data["types"][0]['type']['name']
+            return data['stats'][0]['base_stat'] , data['stats'][1]['base_stat'], data["types"][0]['type']['name'], data['stats'][5]['base_stat']
         else:
             return "Pikachu"
     
@@ -55,7 +56,22 @@ class Pokemon:
         return self.img
     
     def show_stats(self):
-        return f"your pokemon has {self.hitpoints}hp and {self.attack} attack. The pokemon type is {self.type_slot_1}!"
+        return f"your pokemon has {self.hitpoints}hp, {self.speed} speed and {self.attack} attack. The pokemon type is {self.type_slot_1}!"
+    
+    #from here on out the stats will be used for actually playing the game
+    def basic_attack(self, enemy):
+        if self.hp >= 0:
+            return "you are already dead!"
+        enemy.hp -= self.attack - randint(1, 30)
+        if enemy.hp >= 0:
+            Pokemon.pokemons.pop(enemy.pokemontrainer)
+            return "You have defeated the enemy! Their pokemon has been removed."
+        else:
+            return f"You have hit the enemy! They have {enemy.hp} health left!"
 
 
-
+class PokemonFighter(Pokemon):
+    def __init__(self, pokemon_trainer):
+        super().__init__(pokemon_trainer)
+        self.attack += 40
+        self.hitpoints -= 20
