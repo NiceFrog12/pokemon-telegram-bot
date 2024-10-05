@@ -15,6 +15,7 @@ class Pokemon:
         self.attack = self.get_stats()[1]
         self.type_slot_1 = self.get_stats()[2]
         self.speed = self.get_stats()[3]
+        self.role = 'regular'
         Pokemon.pokemons[pokemon_trainer] = self
 
     # Метод для получения картинки покемона через API
@@ -49,14 +50,20 @@ class Pokemon:
 
     # Метод класса для получения информации
     def info(self):
-        return f"Имя твоего покеомона: {self.name}"
+        message = (f"Trainer: {self.pokemon_trainer}\n"
+                f"Pokemon Name: {self.name}\n"
+                f"Hitpoints: {self.hitpoints}\n"
+                f"Attack: {self.attack}\n"
+                f"Type: {self.type_slot_1}\n"
+                f"Speed: {self.speed}"), self.img
+        return message
 
     # Метод класса для получения картинки покемона
     def show_img(self):
         return self.img
     
     def show_stats(self):
-        return f"your pokemon has {self.hitpoints}hp, {self.speed} speed and {self.attack} attack. The pokemon type is {self.type_slot_1}!"
+        return f"your pokemon {self.name} has {self.hitpoints}hp, {self.speed} speed and {self.attack} attack. The pokemon type is {self.type_slot_1}!"
     
     #from here on out the stats will be used for actually playing the game
     def basic_attack(self, enemy):
@@ -75,3 +82,4 @@ class PokemonFighter(Pokemon):
         super().__init__(pokemon_trainer)
         self.attack += 40
         self.hitpoints -= 20
+        self.role = 'fighter'

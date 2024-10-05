@@ -9,13 +9,13 @@ bot = telebot.TeleBot(token)
 def go(message):
     if message.from_user.username not in Pokemon.pokemons.keys():
         pokemon = Pokemon(message.from_user.username)
-        bot.send_message(message.chat.id, pokemon.info())
         bot.send_photo(message.chat.id, pokemon.show_img())
         bot.send_message(message.chat.id, pokemon.show_stats())
         randomizer = random.randint(1,2)
         if randomizer == 1:
             bot.send_message(message.chat.id, "Your pokemon has been assigned the fighter role!")
-            pokemon = PokemonFighter(message.from_user.username)
+            Pokemon.pokemons[message.from_user.username].role = 'fighter'
+            print(Pokemon.pokemons)
     else:
         bot.reply_to(message, "Ты уже создал себе покемона")
 
@@ -36,5 +36,16 @@ def fight(message):
         bot.send_message(message.chat.id, f"And so the fight beings! {my_pokemon.attack(enemy_pokemon)}")
     else:
         bot.send_message(message.chat.id, "You need to reply to the message of the person you're trying to fight.")
+
+@bot.message_handler(commands=['info', 'pokemon'])
+def information(message):
+    if message.from_user.username in Pokemon.pokemons.keys():
+        pok = Pokemon.pokemons[message.from_user.username]
+        bot.send_message(message.chat.id, pok.info()[0])
+        if isinstance(pok, PokemonFighter):
+            bot.send_message(message.chat.id, "Your Pokemon is also a fighter, which makes it's stats in battle modified!")
+        bot.send_photo(message.chat.id, pok.info()[1])
+    else:
+         bot.send_message(message.chat.id, "You don't have a pokemon yet. Use the /go command to obtain one!")        
 bot.infinity_polling(none_stop=True)
 
