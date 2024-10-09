@@ -33,7 +33,7 @@ def fight(message):
             return
         my_pokemon = Pokemon.pokemons[my_username]
         enemy_pokemon = Pokemon.pokemons[enemy_username]
-        bot.send_message(message.chat.id, f"And so the fight beings! {my_pokemon.attack(enemy_pokemon)}")
+        bot.send_message(message.chat.id, f"And so the fight beings! {my_pokemon.basic_attack(enemy_pokemon)}")
     else:
         bot.send_message(message.chat.id, "You need to reply to the message of the person you're trying to fight.")
 

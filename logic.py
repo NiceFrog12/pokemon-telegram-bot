@@ -67,14 +67,15 @@ class Pokemon:
     
     #from here on out the stats will be used for actually playing the game
     def basic_attack(self, enemy):
-        if self.hp >= 0:
+        if self.hitpoints <= 0:
             return "you are already dead!"
-        enemy.hp -= self.attack - randint(1, 30)
-        if enemy.hp >= 0:
-            Pokemon.pokemons.pop(enemy.pokemontrainer)
-            return "You have defeated the enemy! Their pokemon has been removed."
+        damage = self.attack - randint(1, 30)
+        enemy.hitpoints -= damage
+        if enemy.hitpoints <= 0:
+            Pokemon.pokemons.pop(enemy.pokemon_trainer)
+            return f"You have defeated the enemy! Your Pokemon did {damage} and they wound up with {enemy.hitpoints} health. Their pokemon has been removed."
         else:
-            return f"You have hit the enemy! They have {enemy.hp} health left!"
+            return f"You have hit the enemy for {damage}! They have {enemy.hitpoints} health left!"
 
 
 class PokemonFighter(Pokemon):
