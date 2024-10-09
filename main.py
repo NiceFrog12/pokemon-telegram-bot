@@ -42,7 +42,7 @@ def information(message):
     if message.from_user.username in Pokemon.pokemons.keys():
         pok = Pokemon.pokemons[message.from_user.username]
         bot.send_message(message.chat.id, pok.info()[0])
-        if isinstance(pok, PokemonFighter):
+        if pok.role == 'fighter':
             bot.send_message(message.chat.id, "Your Pokemon is also a fighter, which makes it's stats in battle modified!")
         bot.send_photo(message.chat.id, pok.info()[1])
     else:
