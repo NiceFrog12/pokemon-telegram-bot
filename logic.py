@@ -1,5 +1,6 @@
 from random import randint
 import requests
+from datetime import datetime, timedelta
 
 class Pokemon:
     pokemons = {}
@@ -17,6 +18,8 @@ class Pokemon:
         self.speed = self.get_stats()[3]
         self.role = 'regular'
         Pokemon.pokemons[pokemon_trainer] = self
+
+        self.last_feed_time = datetime.now()
 
     # Метод для получения картинки покемона через API
     def get_img(self):
@@ -78,9 +81,25 @@ class Pokemon:
             return f"You have hit the enemy for {damage}! They have {enemy.hitpoints} health left!"
 
 
+    def feed(self, feed_interval = 20, hp_increase = 10 ):
+        current_time = datetime.now()  
+        delta_time = timedelta(seconds=feed_interval)  
+        
+        if (current_time - self.last_feed_time) > delta_time:
+            self.hitpoints += hp_increase
+            self.last_feed_time = current_time
+            return f"Здоровье покемона увеличено. Текущее здоровье: {self.hitpoints}"
+        else:
+            time = self.last_feed_time + delta_time
+            seconds_left = time - current_time
+            return f"Следующее время кормления покемона: {(seconds_left).seconds} секунд"  
+
 class PokemonFighter(Pokemon):
     def __init__(self, pokemon_trainer):
         super().__init__(pokemon_trainer)
         self.attack += 40
         self.hitpoints -= 20
         self.role = 'fighter'
+    
+    def feed():
+        return super().feed(30, 20)

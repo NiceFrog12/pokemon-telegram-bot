@@ -47,5 +47,11 @@ def information(message):
         bot.send_photo(message.chat.id, pok.info()[1])
     else:
          bot.send_message(message.chat.id, "You don't have a pokemon yet. Use the /go command to obtain one!")        
-bot.infinity_polling(none_stop=True)
 
+
+@bot.message_handler(commands=['feed', 'food'])
+def feed(message):
+    bot.send_message(message.chat.id, Pokemon.pokemons[message.from_user.username].feed())
+
+
+bot.infinity_polling(none_stop=True)
